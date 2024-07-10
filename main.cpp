@@ -83,10 +83,9 @@ public:
         for(unsigned i=0;i <  casas.sizr(); i++){
             if (casas[i].tipo() == Casa::CasaType::PROPRIEDADE){
                 status[casas[i].get_Cor()].first = 1 + status[casas[i].get_Cor()].first;
+                status[casas[i].get_Cor()].second = 0;
             }
         }
-
-
     }
 }
 
@@ -99,15 +98,25 @@ public:
         SORTE_REVES
     } CasaType;
 
-    void Cair{
-
-    }
+    virtual void Cair() = 0;
     virtual Casa::CasaType tipo() = 0;
 
 }
 class Propriedade: public Casa{
-    public:
-
+private:
+    int preco;
+    vector<int> aluguel;
+    int num_estacoes;
+    int hipoteca;
+    string nome;
+    string cor;
+    P_Type tipo_p;
+public:
+    enum {
+        PADRAO,
+        CIA,
+        USINA
+    } P_Type;
     CasaType tipo() { return CasaType::PROPRIEDADE; }
 
 }
