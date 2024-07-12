@@ -3,11 +3,17 @@
 #include <cmath>
 #include <vector>
 #include <map>
+#include <stdlib.h>
 
 #include <QApplication>
 #include <QtWidgets>
 
 using namespace std;
+
+int dice;
+int max_rep;
+int dinheiro_init;
+<vector int> tab_seq;
 
 class Jogador {
 private:
@@ -16,26 +22,68 @@ private:
     int dinheiro;
     int id;
     int posicao_tab;
-    int posicao_casa;
-    bool preso;
-    bool sua_vez;
+    int posicao_casa = 0;
+    bool preso = false;
+    bool sua_vez = false;
     vector<Item *> iventario;
 public:
-    Jogador() {
+    Jogador(string nome_, int tab_init) {
+        nome = nome_;
+        dinheiro = dinheiro_init;
+        posicao_tab = tab_init;
     }
     void jogar_dados();
     void mover_peao(int num);
     void receber_dinheiro(int num);
     void pagar(int num,int id_jog = 0);
     void add_item();
+    void mover_cadeia();
 
 };
 
 void Jogador::jogar_dados(){
-
+    int d1;
+    int d2;
+    int repetir = 0;
+    if (preso){
+        d1 = rand() % 6 +1;
+        d2 = rand() % 6 +1;
+    }
+    else{
+        d1 = rand() % dice +1;
+        d2 = rand() % dice +1;
+    }
+    while (repetir < max_rep){
+        
+        if (d1 == d2){
+            repetir++;
+            if (preso){
+                repetir--;
+                preso=false;
+            }
+            else{
+                if (repetir == max_rep)
+                    mover_cadeia()
+                else
+                    mover_peao(d1+d2)
+            }
+            
+        }
+        else{
+            if (!preso)
+                mover_peao(d1+d2)
+            break;
+        }
+        if (repetir == max_rep)
+            mover_cadeia()
+        d1 = rand() % dice +1;
+        d2 = rand() % dice +1;
+    }
 }
-
-void Jogador::mover_peao(){
+void Jogador::mover_cadeia(){
+    preso = true;
+}
+void Jogador::mover_peao(int num_casas){
 
 }
 
@@ -48,28 +96,36 @@ void Jogador::pagar(int num, int id_jog=0){
 }
 
 class Item{
-private:
-    string tipo;
 public:
+    enum{
+        PROPRIEDADE,
+        CARTA,
+        DINHEIRO
+    }type_i;
     void clicar();
+    virtual type_i tipo() = 0;
 }
 class I_Prop: public Item{
 private:
     string tipo="propriedade";
+    Propriedade * prop;
 public:
     void clicar();
+    type_i tipo(){return type_i::PROPRIEDADE};
 }
 class I_Carta: public Item{
 private:
     string tipo="carta";
 public:
     void clicar();
+    type_i tipo(){return type_i::CARTA};
 }
 class I_Din: public Item{
 private:
     string tipo="din";
 public:
     void clicar();
+    type_i tipo(){return type_i::DINHEIRO};
 }
 
 class Tabuleiro{
@@ -86,6 +142,9 @@ public:
                 status[casas[i].get_Cor()].second = 0;
             }
         }
+    }
+    pair<int, int> verificar_status(string cor){
+        return status[cor]
     }
 }
 
@@ -111,6 +170,7 @@ private:
     string nome;
     string cor;
     P_Type tipo_p;
+    Jogador dono; 
 public:
     enum {
         PADRAO,
@@ -133,6 +193,7 @@ public:
 }
 
 int main() {
-
+    srand(time(NULL));
+    dice = 6;
 
 };
