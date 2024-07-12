@@ -12,14 +12,14 @@ using namespace std;
 
 int dice;
 int max_rep;
-int dinheiro_init;
+<vector I_Din> dinheiro_init;
 <vector int> tab_seq;
 
 class Jogador {
 private:
     string nome;
     int ordem;
-    int dinheiro;
+    int dinheiro = 0;
     int id;
     int posicao_tab;
     int posicao_casa = 0;
@@ -29,7 +29,11 @@ private:
 public:
     Jogador(string nome_, int tab_init) {
         nome = nome_;
-        dinheiro = dinheiro_init;
+        iventario = dinheiro_init;
+        for (unsigned i=0; i<iventario.size(); ++i){
+            if (iventario[i].tipo() = Item::Type_i::DINHEIRO)
+                dinheiro += iventario[i].get_valor();
+        }
         posicao_tab = tab_init;
     }
     void jogar_dados();
@@ -101,9 +105,9 @@ public:
         PROPRIEDADE,
         CARTA,
         DINHEIRO
-    }type_i;
+    }Type_i;
     void clicar();
-    virtual type_i tipo() = 0;
+    virtual Type_i tipo() = 0;
 }
 class I_Prop: public Item{
 private:
@@ -111,21 +115,21 @@ private:
     Propriedade * prop;
 public:
     void clicar();
-    type_i tipo(){return type_i::PROPRIEDADE};
+    Type_i tipo(){return Type_i::PROPRIEDADE};
 }
 class I_Carta: public Item{
 private:
-    string tipo="carta";
 public:
     void clicar();
-    type_i tipo(){return type_i::CARTA};
+    Type_i tipo(){return Type_i::CARTA};
 }
 class I_Din: public Item{
 private:
-    string tipo="din";
+    int valor;
 public:
     void clicar();
-    type_i tipo(){return type_i::DINHEIRO};
+    int get_valor();
+    Type_i tipo(){return Type_i::DINHEIRO};
 }
 
 class Tabuleiro{
