@@ -11,6 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
     _viewport->setBackgroundBrush(QPixmap(":/images/space.jpg"));
     _layout = new QVBoxLayout(this);
     _layout->addWidget(_viewport);
+    setMouseTracking(true);
     setLayout(_layout);
     setFixedSize(sizeHint());
     setWindowTitle("B_I");

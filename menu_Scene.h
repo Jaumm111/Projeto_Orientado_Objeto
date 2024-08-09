@@ -3,7 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QTimer>
-#include <QMouseEvent>
+#include <QGraphicsSceneMouseEvent>
 #include <QPushButton>
 
 class menuScene : public QGraphicsScene
@@ -16,7 +16,7 @@ public:
 
     // QGraphicsScene interface
 protected:
-    void mousePressEvent(QMouseEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent  *event);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 private:

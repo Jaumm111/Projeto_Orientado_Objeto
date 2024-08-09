@@ -40,6 +40,7 @@ menuScene::menuScene(QObject *parent)
     _timer->start(1000 / Config::Viewport::FPS);
     qDebug() << "INIT";
 
+
 }
 
 void menuScene::setAxis(bool value)
@@ -53,8 +54,9 @@ void menuScene::setAxis(bool value)
     }
 }
 
-void menuScene::mousePressEvent(QMouseEvent *event){
+void menuScene::mousePressEvent(QGraphicsSceneMouseEvent  *event){
     qDebug() << "mouse Press Event in Scene";
+    qDebug() << event->lastPos()();
 }
 
 void menuScene::keyPressEvent(QKeyEvent *event){
