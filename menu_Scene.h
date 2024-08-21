@@ -5,6 +5,8 @@
 #include <QTimer>
 #include <QGraphicsSceneMouseEvent>
 #include <QPushButton>
+#include <QWidget>
+#include <QCursor>
 
 class menuScene : public QGraphicsScene
 {
@@ -19,10 +21,12 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent  *event);
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
+    void open();
 private:
 
     QTimer          * _timer;
     QPushButton     * pbutton;
+    QCursor         * cursor;
     QGraphicsLineItem * x_axis;
     QGraphicsLineItem * y_axis;
 

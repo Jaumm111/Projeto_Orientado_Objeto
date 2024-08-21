@@ -18,6 +18,8 @@ set(PROJECT_SOURCES
         mainwindow.h
         menu_Scene.cpp
         menu_Scene.h
+        config_Scene.cpp
+        config_Scene.h
         config.h
         images/space.jpg
 )

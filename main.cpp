@@ -15,7 +15,68 @@ using namespace std;
 int dice;
 int max_rep;
 
-class Propriedade;
+class Jogador;
+
+class Casa{
+private:
+    int id;
+public:
+    typedef enum CasaType{
+        PROPRIEDADE,
+        SORTE_REVES
+    } CasaType;
+    typedef enum Cor_t {
+        BRANCO,
+        AZUL
+    } Cor_t;
+    virtual void Cair() = 0;
+    virtual Casa::CasaType tipo() = 0;
+    virtual Cor_t get_cor() = 0;
+
+};
+class Propriedade: public Casa{
+public:
+    typedef enum P_type {
+        PADRAO,
+        CIA,
+        USINA
+    } P_Type;
+
+private:
+    int preco;
+    vector<int> aluguel;
+    int num_estacoes;
+    int hipoteca;
+    string nome;
+    Cor_t cor;
+    P_Type tipo_p;
+    Jogador *dono;
+public:
+    CasaType tipo() { return CasaType::PROPRIEDADE; }
+    Cor_t get_cor();
+};
+
+class Tabuleiro{
+private:
+    int id;
+    vector<Casa *> casas;
+    map<Casa::Cor_t, pair<int,int>>  status;
+public:
+    Tabuleiro(vector<Casa *> casas_){
+        casas = casas_;
+        for(unsigned i=0;i <  casas.size(); i++){
+            if (casas[i]->tipo() == Casa::CasaType::PROPRIEDADE){
+                status[casas[i]->get_cor()].first = 1 + status[casas[i]->get_cor()].first;
+                status[casas[i]->get_cor()].second = 0;
+            }
+        }
+    }
+    pair<int, int> verificar_status(Casa::Cor_t cor){
+        return status[cor];
+    }
+    int getTam(){return casas.size();}
+    void cair(int pos){casas[pos]->Cair();}
+};
 
 class Item{
 public:
@@ -51,6 +112,7 @@ public:
 };
 
 vector<I_Din *> dinheiro_init;
+vector<Tabuleiro *> tab;
 vector<int> tab_seq;
 
 class Jogador {
@@ -59,6 +121,7 @@ private:
     int ordem;
     int dinheiro = 0;
     int id;
+    int num_voltas = 0;
     int posicao_tab;
     int posicao_casa = 0;
     bool preso = false;
@@ -126,7 +189,15 @@ void Jogador::mover_cadeia(){
     preso = true;
 }
 void Jogador::mover_peao(int num_casas){
-
+    int tam = tab[posicao_tab]->getTam();
+    if ((posicao_casa < tam/2) && (posicao_casa+num_casas >= tam/2)){
+        posicao_tab = (posicao_tab+1)%tab.size();
+    }
+    if (posicao_casa+num_casas >= tam){
+        posicao_casa=posicao_casa-tam;
+        num_voltas+=1;
+    }
+    posicao_casa=posicao_casa_num_casas
 }
 
 void Jogador::receber_dinheiro(int num){
@@ -137,64 +208,7 @@ void Jogador::pagar(int num, int id_jog){
 
 }
 
-class Casa{
-private:
-    int id;
-public:
-    typedef enum CasaType{
-        PROPRIEDADE,
-        SORTE_REVES
-    } CasaType;
-    typedef enum Cor_t {
-        BRANCO,
-        AZUL
-    } Cor_t;
-    virtual void Cair() = 0;
-    virtual Casa::CasaType tipo() = 0;
-    virtual Cor_t get_cor() = 0;
 
-};
-class Propriedade: public Casa{
-public:
-    typedef enum P_type {
-        PADRAO,
-        CIA,
-        USINA
-    } P_Type;
-
-private:
-    int preco;
-    vector<int> aluguel;
-    int num_estacoes;
-    int hipoteca;
-    string nome;
-    Cor_t cor;
-    P_Type tipo_p;
-    Jogador dono;
-public:
-    CasaType tipo() { return CasaType::PROPRIEDADE; }
-    Cor_t get_cor();
-};
-
-class Tabuleiro{
-private:
-    int id;
-    vector<Casa *> casas;
-    map<Casa::Cor_t, pair<int,int>>  status;
-public:
-    Tabuleiro(vector<Casa *> casas_){
-        casas = casas_;
-        for(unsigned i=0;i <  casas.size(); i++){
-            if (casas[i]->tipo() == Casa::CasaType::PROPRIEDADE){
-                status[casas[i]->get_cor()].first = 1 + status[casas[i]->get_cor()].first;
-                status[casas[i]->get_cor()].second = 0;
-            }
-        }
-    }
-    pair<int, int> verificar_status(Casa::Cor_t cor){
-        return status[cor];
-    }
-};
 
 
 
