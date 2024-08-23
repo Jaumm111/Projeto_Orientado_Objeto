@@ -8,10 +8,10 @@
 #include <QWidget>
 #include <QCursor>
 
-class menuScene : public QGraphicsScene
+class configScene : public QGraphicsScene
 {
 public:
-    explicit menuScene(QObject *parent = nullptr);
+    explicit configScene(QObject *parent = nullptr);
 
     void setAxis(bool value);
 
@@ -26,6 +26,7 @@ private:
 
     QTimer          * _timer;
     QPushButton     * pbutton;
+    QPushButton     * pbutton2;
     QCursor         * cursor;
     QGraphicsLineItem * x_axis;
     QGraphicsLineItem * y_axis;

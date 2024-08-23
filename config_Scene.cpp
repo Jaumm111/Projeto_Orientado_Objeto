@@ -1,11 +1,11 @@
-#include "menu_Scene.h"
+#include "config_Scene.h"
 #include "Config.h"
 #include <QDebug>
 #include <QKeyEvent>
 #include <QGraphicsItem>
 #include <QPushButton>
 
-menuScene::menuScene(QObject *parent)
+configScene::configScene(QObject *parent)
     : QGraphicsScene{parent}
 {
     setSceneRect(-0.5*Config::Viewport::WIDTH,
@@ -30,7 +30,13 @@ menuScene::menuScene(QObject *parent)
     pbutton->setGeometry(QRect(-x_limit*.7,y_limit*.9-50,100,50));
     pbutton->setText("Iniciar");
     addWidget(pbutton);
-    QObject::connect(pbutton, &QPushButton::clicked, this, &menuScene::open);
+    QObject::connect(pbutton, &QPushButton::clicked, this, &configScene::open);
+
+    pbutton2 = new QPushButton();
+    pbutton2->setGeometry(QRect(-x_limit*.7,-y_limit*.9,100,50));
+    pbutton2->setText("Iniciar");
+    addWidget(pbutton2);
+    QObject::connect(pbutton2, &QPushButton::clicked, this, &configScene::open);
 
     QGraphicsRectItem * rect = new QGraphicsRectItem(-25,-25,50,50);
     addItem(rect);
@@ -46,7 +52,7 @@ menuScene::menuScene(QObject *parent)
 
 }
 
-void menuScene::setAxis(bool value)
+void configScene::setAxis(bool value)
 {
     if(value){
         x_axis->show();
@@ -57,23 +63,23 @@ void menuScene::setAxis(bool value)
     }
 }
 
-void menuScene::open()
+void configScene::open()
 {
     qDebug() << "Button Press Event in Scene";
     this->setAxis(false);
 }
 
-void menuScene::mousePressEvent(QGraphicsSceneMouseEvent  *event){
+void configScene::mousePressEvent(QGraphicsSceneMouseEvent  *event){
     qDebug() << "mouse Press Event in Scene";
     qDebug() << event->pos();
     qDebug() << pbutton->pos();
     qDebug() << (cursor->pos());
 }
 
-void menuScene::keyPressEvent(QKeyEvent *event){
+void configScene::keyPressEvent(QKeyEvent *event){
     qDebug() << "mouse Press Event in Scene";
 }
 
-void menuScene::keyReleaseEvent(QKeyEvent *event){
+void configScene::keyReleaseEvent(QKeyEvent *event){
     qDebug() << "mouse Press Event in Scene";
 }

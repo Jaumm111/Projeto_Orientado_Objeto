@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+
 
 #include <iostream>
 #include <string>
@@ -11,6 +11,9 @@
 #include <QtWidgets>
 
 using namespace std;
+
+#include "mainwindow.h"
+
 
 int dice;
 int max_rep;
@@ -197,7 +200,7 @@ void Jogador::mover_peao(int num_casas){
         posicao_casa=posicao_casa-tam;
         num_voltas+=1;
     }
-    posicao_casa=posicao_casa_num_casas
+    posicao_casa=posicao_casa+num_casas;
 }
 
 void Jogador::receber_dinheiro(int num){

@@ -8,6 +8,9 @@
 menuScene::menuScene(QObject *parent)
     : QGraphicsScene{parent}
 {
+
+    window = dynamic_cast<MainWindow*>(parent);
+
     setSceneRect(-0.5*Config::Viewport::WIDTH,
                  -0.5*Config::Viewport::HEIGHT,
                  Config::Viewport::WIDTH,
@@ -16,6 +19,7 @@ menuScene::menuScene(QObject *parent)
     // Construct Scene Axis -----------------------
     int x_limit = 0.5 * width();
     int y_limit = 0.5 * height();
+    lim = QPoint(x_limit,y_limit);
     x_axis = addLine(-x_limit,0,x_limit,0);
     x_axis->setZValue(10);
     y_axis = addLine(0,-y_limit,0,y_limit);
@@ -32,10 +36,9 @@ menuScene::menuScene(QObject *parent)
     addWidget(pbutton);
     QObject::connect(pbutton, &QPushButton::clicked, this, &menuScene::open);
 
-    QGraphicsRectItem * rect = new QGraphicsRectItem(-25,-25,50,50);
+    rect = new QGraphicsRectItem(-25,-25,50,50);
     addItem(rect);
     rect->setPos(-100,-100);
-    rect->setRotation(45);
     rect->setBrush(Qt::red);
 
     _timer = new QTimer;
@@ -60,14 +63,20 @@ void menuScene::setAxis(bool value)
 void menuScene::open()
 {
     qDebug() << "Button Press Event in Scene";
-    this->setAxis(false);
+    window->changeScene(1);
 }
 
 void menuScene::mousePressEvent(QGraphicsSceneMouseEvent  *event){
     qDebug() << "mouse Press Event in Scene";
     qDebug() << event->pos();
     qDebug() << pbutton->pos();
-    qDebug() << (cursor->pos());
+    if(rect->pos() > window->mapFromGlobal(cursor->pos())-lim){
+        qDebug() << "VERMELHO2";
+    }
+    qDebug() << window->mapFromGlobal(cursor->pos())-lim;
+    if(rect->contains(window->mapFromGlobal(cursor->pos()-lim))){
+        qDebug() << "VERMELHO";
+    }
 }
 
 void menuScene::keyPressEvent(QKeyEvent *event){

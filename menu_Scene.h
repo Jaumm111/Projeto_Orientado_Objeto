@@ -8,6 +8,10 @@
 #include <QWidget>
 #include <QCursor>
 
+#include "mainwindow.h"
+
+class MainWindow;
+
 class menuScene : public QGraphicsScene
 {
 public:
@@ -27,8 +31,11 @@ private:
     QTimer          * _timer;
     QPushButton     * pbutton;
     QCursor         * cursor;
+    QPoint          lim;
     QGraphicsLineItem * x_axis;
     QGraphicsLineItem * y_axis;
+    QGraphicsRectItem * rect;
+    MainWindow      * window;
 
 };
 

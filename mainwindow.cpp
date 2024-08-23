@@ -4,10 +4,11 @@
 MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
 {
-    _scene = new menuScene(this);
+    _scenes.push_back(new menuScene(this));
+    _scenes.push_back(new configScene(this));
     //_scene->setAxis(false);
     _viewport = new QGraphicsView(this);
-    _viewport->setScene(_scene);
+    _viewport->setScene(_scenes[0]);
     _viewport->setBackgroundBrush(QPixmap(":/images/space.jpg"));
     _layout = new QVBoxLayout(this);
     _layout->addWidget(_viewport);
@@ -19,5 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+}
+void MainWindow::changeScene(int escolha){
+    _viewport->setScene(_scenes[escolha]);
 }
 
