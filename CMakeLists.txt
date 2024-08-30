@@ -21,6 +21,17 @@ set(PROJECT_SOURCES
         config_Scene.cpp
         config_Scene.h
         config.h
+        config.cpp
+        carddisplay.h
+        carddisplay.cpp
+        item.h
+        item.cpp
+        tabuleiro.h
+        tabuleiro.cpp
+        casa.h
+        casa.cpp
+        jogador.h
+        jogador.cpp
         images/space.jpg
 )
 

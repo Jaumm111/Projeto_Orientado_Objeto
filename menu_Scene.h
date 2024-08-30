@@ -34,7 +34,7 @@ private:
     QPoint          lim;
     QGraphicsLineItem * x_axis;
     QGraphicsLineItem * y_axis;
-    QGraphicsRectItem * rect;
+    QGraphicsPixmapItem * rect;
     MainWindow      * window;
 
 };
