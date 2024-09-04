@@ -19,6 +19,7 @@ public:
     Tabuleiro(vector<Casa *> casas_);
     pair<int, int> verificar_status(string cor);
     int getTam(){return casas.size();}
+    int getCadeia();
     void cair(int pos);
 };
 

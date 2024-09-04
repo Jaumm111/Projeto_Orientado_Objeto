@@ -9,6 +9,9 @@
 #include <QCursor>
 
 #include "mainwindow.h"
+#include "item.h"
+#include "casa.h"
+#include "tabuleiro.h"
 
 class MainWindow;
 

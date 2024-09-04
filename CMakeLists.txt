@@ -33,6 +33,9 @@ set(PROJECT_SOURCES
         jogador.h
         jogador.cpp
         images/space.jpg
+        resource.qrc
+        baralho.h
+        baralho.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -51,6 +51,17 @@ void Jogador::jogar_dados(){
 }
 void Jogador::mover_cadeia(){
     preso = true;
+    int tam = Config::Game::getInstance()->get_tab()[posicao_tab]->getTam();
+    int casas = Config::Game::getInstance()->get_tab()[posicao_tab]->getCadeia();
+    if ((posicao_casa >= tam/2) && (casas < tam/2)){
+        if (posicao_tab!= 0){
+            posicao_tab = (posicao_tab-1)%Config::Game::getInstance()->get_tab().size();
+        }
+        else{
+            posicao_tab = Config::Game::getInstance()->get_tab().size()-1;
+        }
+    }
+    posicao_casa=casas;
 }
 void Jogador::mover_peao(int num_casas){
     int tam = Config::Game::getInstance()->get_tab()[posicao_tab]->getTam();
