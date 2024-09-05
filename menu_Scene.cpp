@@ -50,13 +50,9 @@ menuScene::menuScene(QObject *parent)
 
 
     //QPixmap pixmap2(":/images/saida_livre.jfif");
-    rect = new CardDisplay(0,0,86,121);
-    rect->setPos(100,-100);
-    rect->setCursor(cursor);
-    rect->set_Window(window,lim);
-
-    rect->addText(QString("OLA\n\n4\n30\n10\n400"));
-    addItem(rect);
+    /*Propriedade * rec = new Propriedade("oi","blue",200,100,1,0,{10,20,30,40});
+    rec->getCarta()->getItem()->setPos(100,-100);
+    addItem(rec->getCarta()->getItem());*/
 
 
     _timer = new QTimer;
@@ -86,11 +82,6 @@ void menuScene::open()
 void menuScene::mousePressEvent(QGraphicsSceneMouseEvent  *event){
     qDebug() << "mouse Press Event in Scene";
     qDebug() << event->pos();
-    qDebug() << rect->pos().toPoint();
-    qDebug() << cursor->pos();
-    if(rect->pos().toPoint().x() > (window->mapFromGlobal(cursor->pos())-lim).x()){
-        qDebug() << "VERMELHO2";
-    }
     /*qDebug() << window->mapFromGlobal(cursor->pos())-lim;
     if(rect->contains(window->mapFromGlobal(cursor->pos()-lim))){
         qDebug() << "VERMELHO";

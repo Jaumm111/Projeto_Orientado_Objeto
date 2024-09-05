@@ -12,6 +12,7 @@ using namespace std;
 class Baralho;
 class I_Prop;
 class Jogador;
+class Comprar;
 
 class Casa{
 private:
@@ -51,11 +52,17 @@ private:
     P_Type tipo_p;
     Jogador *dono;
     I_Prop *carta;
+    Comprar * c;
+    Comprar * p;
+    bool espera;
 public:
     Propriedade(QString nome_,QString c,int preco_,int hipoteca_,int peso_,int t,vector<int> v_aluguel);
     CasaType tipo() { return CasaType::PROPRIEDADE; }
     QString get_cor(){return cor;}
     int getPreco(){return preco;}
+    I_Prop * getCarta(){return carta;}
+    void comprar(Jogador *j);
+    void esperado(Jogador *j);
     void cair(Jogador * jog);
 };
 class Prender: public Casa{

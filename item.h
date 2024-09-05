@@ -20,6 +20,7 @@ public:
     void setVisible(bool v);
     CardDisplay * getItem(){return imagem;}
     void clicar();
+    void setCor(QString cor);
     virtual int get_valor() = 0;
     virtual void change(int i) =0;
     virtual Type_i tipo() = 0;

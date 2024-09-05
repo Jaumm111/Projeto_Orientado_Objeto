@@ -1,6 +1,7 @@
 #include "jogador.h"
 
 Jogador::Jogador(QString nome_,
+                 QString cor_,
                  JogoScene * s,
                  qreal x, qreal y,
                  qreal width, qreal height,
@@ -9,6 +10,9 @@ Jogador::Jogador(QString nome_,
     scene = s;
     posicao_tab = 0;
     dinheiro = 0;
+    cor = cor_;
+    x_ = 50;
+    y_ = -200;
     qDebug() << "iventario";
     qDebug() << Config::Game::getInstance()->get_d_init().size();
     int posx = -100;
@@ -17,6 +21,7 @@ Jogador::Jogador(QString nome_,
         CardDisplay *d= new CardDisplay(Config::Game::getInstance()->get_d_init()[i].getItem());
         iventario.push_back(new I_Din(Config::Game::getInstance()->get_d_init()[i].get_valor(),d));
         iventario[i]->getItem()->setPos(posx,posy);
+        iventario[i]->getItem()->setCor(cor);
         posx += iventario[i]->getItem()->rect().width();
         scene->addItem(iventario[i]->getItem());
     }
@@ -28,6 +33,19 @@ Jogador::Jogador(QString nome_,
     }
 }
 
+void Jogador::add_item(Item * i){
+    iventario.push_back(i);
+    qDebug() << iventario.back()->get_valor();
+    iventario.back()->getItem()->setPos(x_,y_);
+    scene->addItem(iventario.back()->getItem());
+    if(x_+120>Config::Viewport::WIDTH*0.5){
+        x_ = 50;
+        y_ +=80;
+    }
+    else
+        x_+=60;
+}
+
 void Jogador::itemVisible(bool v){
     for (unsigned i=0; i<iventario.size(); i++){
         iventario[i]->setVisible(v);
@@ -35,7 +53,7 @@ void Jogador::itemVisible(bool v){
 }
 void Jogador::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setBrush(Qt::red);
+    painter->setBrush(QColor(cor));
     painter->drawRect(this->rect());
     painter->setPen(Qt::white);
     QFont font = painter->font() ;
@@ -51,7 +69,6 @@ void Jogador::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 void Jogador::jogar_dados(JogoScene * scene){
     int d1;
     int d2;
-    int repetir = 0;
     qDebug()<<"dados";
     if (preso){
         d1 = rand() % 6 +1;
@@ -61,41 +78,40 @@ void Jogador::jogar_dados(JogoScene * scene){
         d1 = rand() % Config::Game::getInstance()->get_dice() +1;
         d2 = rand() % Config::Game::getInstance()->get_dice() +1;
     }
-    qDebug() << repetir;
-    qDebug() << Config::Game::getInstance()->get_max_rep();
-    while (repetir < Config::Game::getInstance()->get_max_rep()){
-        qDebug() << this->getNome();
-        qDebug() << d1;
-        qDebug() << d2;
+    if (repetir < Config::Game::getInstance()->get_max_rep()){
         if (d1 == d2){
             qDebug()<<"IGUAIS";
             repetir++;
             if (preso){
-                repetir--;
+                repetir=0;
                 preso=false;
             }
             else{
-                if (repetir == Config::Game::getInstance()->get_max_rep())
+                if (repetir == Config::Game::getInstance()->get_max_rep()){
                     mover_cadeia();
+                    repetir = 0;
+                }
                 else
                     qDebug() << "mover";
                     mover_peao(d1+d2);
+                denovo = true;
             }
 
         }
         else{
-            if (!preso)
+            denovo = false;
+            if (!preso){
                 qDebug() << "mover";
                 mover_peao(d1+d2);
-            break;
+            }
+            else{
+                scene->nextJog();
+            }
         }
         if (repetir == Config::Game::getInstance()->get_max_rep())
             mover_cadeia();
-        d1 = rand() % Config::Game::getInstance()->get_dice() +1;
-        d2 = rand() % Config::Game::getInstance()->get_dice() +1;
     }
     qDebug() << "prox";
-    scene->nextJog();
 }
 void Jogador::mover_cadeia(){
     preso = true;
@@ -110,6 +126,7 @@ void Jogador::mover_cadeia(){
         }
     }
     posicao_casa=casas;
+    Config::Game::getInstance()->get_tab()[posicao_tab]->cair(posicao_casa,this);
 }
 void Jogador::mover_peao(int num_casas){
     qDebug()<< posicao_tab;
@@ -152,6 +169,15 @@ void Jogador::receber_dinheiro(int num){
     // }
 }
 
-void Jogador::pagar(int num, int id_jog){
-
+void Jogador::pagar(int num, Jogador * j){
+    dinheiro -= num;
+    for (unsigned i=0; i<iventario.size(); i++){
+        if (iventario[i]->tipo() == Item::Type_i::DINHEIRO){
+            iventario[i]->change(-num);
+            break;
+        }
+    }
+    if(j!= nullptr){
+        j->receber_dinheiro(num);
+    }
 }

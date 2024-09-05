@@ -13,6 +13,7 @@ public:
     CardDisplay(CardDisplay *d);
     //void addPixMap(QPixmap map_){map=map_;}
     void addText(QString s){texto = s;}
+    void setCor(QString s){cor = s;}
     void setCursor(QCursor * cursor_){cursor=cursor_;}
     void set_Window(MainWindow * window_,QPoint lim_){window=window_;lim=lim_;}
 
@@ -22,6 +23,7 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 private:
     QPoint lim;
+    QString cor;
     QString texto;
     QCursor * cursor;
     MainWindow * window;

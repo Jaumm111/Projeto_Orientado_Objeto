@@ -7,6 +7,7 @@
 class Jogador;
 class MainWindow;
 class JogoScene;
+class Propriedade;
 
 using namespace std;
 
@@ -38,6 +39,19 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 private:
     Jogador * jogador;
+    JogoScene * scene;
+};
+class Comprar: public Botao{
+public:
+    Comprar(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *parent = nullptr);
+    void setAtual(Jogador *j);
+    void setScene(JogoScene * j);
+    void setProp(Propriedade * p);
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+private:
+    Jogador * jogador;
+    Propriedade * prop;
     JogoScene * scene;
 };
 

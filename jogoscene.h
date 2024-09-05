@@ -25,6 +25,8 @@ public:
     void setAxis(bool value);
     void getTab(QString fi);
     void nextJog();
+    bool getEspera();
+    void setEspera(bool a);
 
 
     // QGraphicsScene interface
@@ -34,6 +36,7 @@ protected:
     void keyReleaseEvent(QKeyEvent *event);
     void open();
 private:
+    bool espera = false;
     vector<Jogador *> jog;
     QTimer          * _timer;
     Botao           * pbutton;

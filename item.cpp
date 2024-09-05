@@ -8,6 +8,8 @@ void Item::setVisible(bool v){
     imagem->setVisible(v);
 }
 
+void Item::setCor(QString cor){imagem->setCor(cor);}
+
 I_Din::I_Din(int valor_, CardDisplay *a) : Item(a)
 {
     valor = valor_;

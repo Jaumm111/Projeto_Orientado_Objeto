@@ -41,9 +41,29 @@ void Util_b::setScene(JogoScene * j){
 }
 void Util_b::mousePressEvent(QGraphicsSceneMouseEvent *event){
     qDebug() << "botao";
-    jogador->jogar_dados(scene);
+    if(!scene->getEspera())
+        jogador->jogar_dados(scene);
 }
 void Util_b::setAtual(Jogador *j) {
+    qDebug() << j->getNome();
+    jogador = j;
+}
+Comprar::Comprar(qreal x, qreal y,
+               qreal width, qreal height,
+               QGraphicsItem *parent) : Botao(x,y,width,height, parent){}
+void Comprar::setScene(JogoScene * j){
+    scene = j;
+}
+void Comprar::setProp(Propriedade *p){
+    prop = p;
+}
+void Comprar::mousePressEvent(QGraphicsSceneMouseEvent *event){
+    if(nome == "Comprar")
+        prop->comprar(jogador);
+    scene->nextJog();
+    prop->esperado(jogador);
+}
+void Comprar::setAtual(Jogador *j) {
     qDebug() << j->getNome();
     jogador = j;
 }

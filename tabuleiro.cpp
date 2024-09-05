@@ -94,4 +94,6 @@ void Tabuleiro::cair(int pos, Jogador * jogador){
         x = this->rect().width()-(pos % casas_p_lado+1)*this->rect().width()/(casas_p_lado+1);
     }
     jogador->setPos((this->x()+x+this->rect().width()/(casas_p_lado+1)/2),(this->y()+y+this->rect().height()/(casas_p_lado+1)/2));
+    qDebug() << "cair";
+    casas[pos]->cair(jogador);
 }

@@ -56,7 +56,7 @@ JogoScene::JogoScene(QObject *parent)
         QByteArray line = file.readLine();
         line = line.split(';').first();
         qDebug() << line;
-        j.push_back(new Jogador(line,this));
+        j.push_back(new Jogador(line.split(',')[0],line.split(',')[1],this));
         qDebug() << "Criado";
     }
     qDebug() << "Aleatorizar jogadores";
@@ -97,6 +97,13 @@ JogoScene::JogoScene(QObject *parent)
 
 
 
+}
+
+bool JogoScene::getEspera(){
+    return espera;
+}
+void JogoScene::setEspera(bool a){
+    espera = a;
 }
 
 void JogoScene::getTab(QString fi){
@@ -166,11 +173,13 @@ void JogoScene::getTab(QString fi){
 
 void JogoScene::nextJog()
 {
-    jog[atual]->itemVisible(false);
-    atual = (atual + 1)%jog.size();
-    qDebug() << "jog[atual]->getNome()";
-    jog[atual]->itemVisible(true);
-    dados->setAtual(jog[atual]);
+    if(!jog[atual]->getDenovo()){
+        jog[atual]->itemVisible(false);
+        atual = (atual + 1)%jog.size();
+        qDebug() << "jog[atual]->getNome()";
+        jog[atual]->itemVisible(true);
+        dados->setAtual(jog[atual]);
+    }
 }
 
 void JogoScene::setAxis(bool value)
