@@ -2,18 +2,21 @@
 #define JOGADOR_H
 
 #include <vector>
-#include <string>
+#include <QString>
+#include <QGraphicsRectItem>
 
 using namespace std;
 
 #include "item.h"
 #include "config.h"
+#include "jogoscene.h"
 
+class JogoScene;
 class Item;
 
-class Jogador {
+class Jogador : public QGraphicsRectItem{
 private:
-    string nome;
+    QString nome;
     int ordem;
     int dinheiro = 0;
     int id;
@@ -23,14 +26,23 @@ private:
     bool preso = false;
     bool sua_vez = false;
     vector<Item *> iventario;
+    JogoScene * scene;
+protected:
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr);
 public:
-    Jogador(string nome_, int tab_init);
-    void jogar_dados();
+    Jogador(QString nome_,
+            JogoScene * s,
+            qreal x=-10, qreal y=-10,
+            qreal width=20, qreal height=20,
+            QGraphicsItem *parent = nullptr);
+    QString getNome(){return nome;}
+    void jogar_dados(JogoScene * scene);
     void mover_peao(int num);
     void receber_dinheiro(int num);
     void pagar(int num,int id_jog=0);
     void add_item();
     void mover_cadeia();
+    void itemVisible(bool v);
 
 };
 

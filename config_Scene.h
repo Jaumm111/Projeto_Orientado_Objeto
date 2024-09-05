@@ -8,6 +8,16 @@
 #include <QWidget>
 #include <QCursor>
 
+#include "mainwindow.h"
+#include "botao.h"
+#include "carddisplay.h"
+#include "item.h"
+#include "tabuleiro.h"
+
+class Botao;
+class Tabuleiro;
+class CardDisplay;
+
 class configScene : public QGraphicsScene
 {
 public:
@@ -25,11 +35,15 @@ protected:
 private:
 
     QTimer          * _timer;
-    QPushButton     * pbutton;
-    QPushButton     * pbutton2;
+    Botao           * pbutton;
+    Botao           * getTab;
+    Tabuleiro       * tabuleiro;
     QCursor         * cursor;
+    QPoint          lim;
     QGraphicsLineItem * x_axis;
     QGraphicsLineItem * y_axis;
+    CardDisplay * rect;
+    MainWindow      * window;
 
 };
 

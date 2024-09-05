@@ -8,6 +8,7 @@
 //class MainWindow;
 
 #include "menu_Scene.h"
+#include "jogoscene.h"
 #include "config_Scene.h"
 
 class MainWindow : public QWidget
@@ -18,6 +19,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void changeScene(int escolha);
+    QGraphicsScene * getScene(int escolha);
 
 private:
     QVector<QGraphicsScene *> _scenes;

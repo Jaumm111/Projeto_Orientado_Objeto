@@ -22,6 +22,8 @@ set(PROJECT_SOURCES
         config_Scene.h
         config.h
         config.cpp
+        botao.h
+        botao.cpp
         carddisplay.h
         carddisplay.cpp
         item.h
@@ -33,15 +35,23 @@ set(PROJECT_SOURCES
         jogador.h
         jogador.cpp
         images/space.jpg
+        images/Gatinho.png
+        images.qrc
         resource.qrc
         baralho.h
         baralho.cpp
+        jogoscene.h
+        jogoscene.cpp
+
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(B_I
+
+qt_add_executable(B_I
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        botao.h botao.cpp
+        jogoscene.h jogoscene.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET B_I APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

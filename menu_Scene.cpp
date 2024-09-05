@@ -1,5 +1,5 @@
 #include "menu_Scene.h"
-#include "Config.h"
+#include "config.h"
 #include <QDebug>
 #include <QKeyEvent>
 #include <QGraphicsItem>
@@ -7,7 +7,6 @@
 #include <QFile>
 #include <QStringList>
 using namespace std;
-
 menuScene::menuScene(QObject *parent)
     : QGraphicsScene{parent}
 {
@@ -33,61 +32,37 @@ menuScene::menuScene(QObject *parent)
     cursor = new QCursor();
     cursor->setShape(Qt::CrossCursor);
 
-    pbutton = new QPushButton();
-    pbutton->setGeometry(QRect(-x_limit*.7,y_limit*.9-50,100,50));
+    pbutton = new Botao(0,0,100,50);
+    pbutton->setPos(-x_limit*.7,y_limit*.9-50);
     pbutton->setText("Iniciar");
-    addWidget(pbutton);
-    QObject::connect(pbutton, &QPushButton::clicked, this, &menuScene::open);
+    pbutton->addPixMap(QPixmap(":/images/botao.jfif"));
+    pbutton->set_Window(window);
+    pbutton->set_Scene(2);
+    addItem(pbutton);
+
+    pbutton = new Botao(0,0,100,50);
+    pbutton->setPos(x_limit*.7-100,y_limit*.9-50);
+    pbutton->setText("Config");
+    pbutton->addPixMap(QPixmap(":/images/botao.jfif"));
+    pbutton->set_Window(window);
+    pbutton->set_Scene(2);
+    addItem(pbutton);
 
 
-    QPixmap pixmap2(":/images/space.jpg");
-    rect = new CardDisplay(pixmap2);
-    addItem(rect);
+    //QPixmap pixmap2(":/images/saida_livre.jfif");
+    rect = new CardDisplay(0,0,86,121);
     rect->setPos(100,-100);
-    rect->mapRectFromItem(rect,0,0,100,100);
+    rect->setCursor(cursor);
+    rect->set_Window(window,lim);
+
+    rect->addText(QString("OLA\n\n4\n30\n10\n400"));
+    addItem(rect);
+
 
     _timer = new QTimer;
     QObject::connect(_timer, &QTimer::timeout, this, &QGraphicsScene::advance);
     _timer->start(1000 / Config::Viewport::FPS);
     qDebug() << "INIT";
-
-    QFile file(":/tab.csv");
-    if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << file.errorString();
-    }
-
-    vector<Casa *> casas;
-    while (!file.atEnd()) {
-        QByteArray line = file.readLine();
-        line = line.split(';').first();
-        if (line.split(',').first() == "Inicio"){
-            casas.push_back(new Casa("Ponto de Partida"));
-        }
-        if (line.split(',').first() == "Cadeia"){
-            casas.push_back(new Casa("Cadeia"));
-        }
-        if (line.split(',').first() == "Parada"){
-            casas.push_back(new Casa("Parada Livre"));
-        }
-        if (line.split(',').first() == "Policia"){
-            casas.push_back(new Prender("Vá para Prisão"));
-        }
-        if (line.split(',').first() == "Propriedade"){
-            vector<int> numbers;
-            numbers.push_back(stoi(line.split(',')[7].toStdString()));
-            numbers.push_back(stoi(line.split(',')[8].toStdString()));
-            numbers.push_back(stoi(line.split(',')[9].toStdString()));
-            casas.push_back(new Propriedade(line.split(',')[1].toStdString(),
-                                            line.split(',')[2].toStdString(),
-                                            stoi(line.split(',')[3].toStdString()),
-                                            stoi(line.split(',')[4].toStdString()),
-                                            stoi(line.split(',')[5].toStdString()),
-                                            stoi(line.split(',')[6].toStdString()),
-                                            numbers));
-        }
-        qDebug() << line;
-        qDebug()<< line.split(';').first().split(',');
-    }
 
 }
 

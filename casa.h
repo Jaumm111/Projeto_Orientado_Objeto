@@ -2,36 +2,40 @@
 #define CASA_H
 
 #include <vector>
-#include <string>
+#include <QString>
 
 using namespace std;
 
 #include "jogador.h"
 #include "baralho.h"
+
 class Baralho;
+class I_Prop;
 class Jogador;
 
 class Casa{
 private:
     int id;
 protected:
-    string nome;
+    QString nome;
 public:
-    Casa(string nome_);
+    QString getNome(){return nome;}
+    Casa(QString nome_);
     typedef enum CasaType{
+        CANTO,
         PROPRIEDADE,
         SORTE_REVES,
         VPP
     } CasaType;
-    virtual void Cair() {}
-    string getNome(){return nome;}
-    virtual Casa::CasaType tipo() { }
-    virtual string get_cor() { return ""; }
+    virtual void cair(Jogador * jog){ };
+    virtual int getPreco(){return 0;}
+    virtual Casa::CasaType tipo(){return CasaType::CANTO;};
+    virtual QString get_cor(){return "gray";};
 
 };
 class Propriedade: public Casa{
 public:
-    typedef enum P_type {
+    typedef enum P_Type {
         PADRAO,
         CIA,
         USINA
@@ -42,28 +46,34 @@ private:
     vector<int> aluguel;
     int num_estacoes;
     int hipoteca;
-    string cor;
     int peso;
+    QString cor;
     P_Type tipo_p;
     Jogador *dono;
+    I_Prop *carta;
 public:
-    Propriedade(string nome_,string c,int preco_,int hipoteca,int peso_,int t,vector<int> v_aluguel);
+    Propriedade(QString nome_,QString c,int preco_,int hipoteca_,int peso_,int t,vector<int> v_aluguel);
     CasaType tipo() { return CasaType::PROPRIEDADE; }
-    string get_cor();
-    void Cair();
+    QString get_cor(){return cor;}
+    int getPreco(){return preco;}
+    void cair(Jogador * jog);
 };
 class Prender: public Casa{
 public:
-    Prender(string nome_): Casa(nome_) { }
+    Prender(QString nome_): Casa(nome_) { }
     CasaType tipo() { return CasaType::VPP; }
-    void Cair();
+    void cair(Jogador * jog);
+    QString get_cor(){return "gray";};
+
 };
 class Sorte_Reves: public Casa{
 private:
     Baralho *s_r;
 public:
-    Sorte_Reves(string nome_="Sorte_Reves"): Casa(nome_) { }
+    Sorte_Reves(QString nome_="Sorte_Reves"): Casa(nome_) { }
     CasaType tipo() { return CasaType::SORTE_REVES; }
-    void Cair();
+    void cair(Jogador * jog);
+    QString get_cor(){return "gray";};
 };
+
 #endif // CASA_H

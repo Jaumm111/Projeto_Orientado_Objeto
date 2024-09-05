@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>images/Gatinho.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>images/space.jpg</file>
+        <file>images/Gatinho.png</file>
+        <file>images/saida_livre.jfif</file>
+        <file>images/botao.jfif</file>
+    </qresource>
+</RCC>

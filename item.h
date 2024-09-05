@@ -4,6 +4,7 @@
 #include "carddisplay.h"
 #include "casa.h"
 
+class CardDisplay;
 class Propriedade;
 
 class Item{
@@ -16,30 +17,38 @@ public:
         CARTA,
         DINHEIRO
     }Type_i;
+    void setVisible(bool v);
+    CardDisplay * getItem(){return imagem;}
     void clicar();
     virtual int get_valor() = 0;
+    virtual void change(int i) =0;
     virtual Type_i tipo() = 0;
 };
 class I_Prop: public Item{
 private:
     Propriedade * prop;
 public:
+    I_Prop(Propriedade * p,CardDisplay *i);
     void clicar();
     Type_i tipo(){return Type_i::PROPRIEDADE;}
+    int get_valor(){return 0;}
+    void change(int i){}
 };
 class I_Carta: public Item{
 private:
 public:
     void clicar();
     Type_i tipo(){return Type_i::CARTA;}
+    void change(int i){}
 };
 class I_Din: public Item{
 private:
     int valor;
 public:
-    I_Din(int valor);
+    I_Din(int valor_,CardDisplay *a);
     void clicar();
-    int get_valor();
+    void change(int i);
+    int get_valor(){return valor;}
     Type_i tipo(){return Type_i::DINHEIRO;}
 };
 #endif // ITEM_H

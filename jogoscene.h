@@ -1,30 +1,30 @@
-#ifndef MENU_SCENE_H
-#define MENU_SCENE_H
-
-#include <QGraphicsScene>
-#include <QTimer>
-#include <QGraphicsSceneMouseEvent>
-#include <QPushButton>
-#include <QWidget>
-#include <QCursor>
+#ifndef JOGOSCENE_H
+#define JOGOSCENE_H
 
 #include "mainwindow.h"
 #include "botao.h"
 #include "carddisplay.h"
 #include "item.h"
 #include "tabuleiro.h"
+#include "jogador.h"
+
+using namespace std;
 
 class Botao;
+class Jogador;
+class Util_b;
 class Tabuleiro;
 class CardDisplay;
 class MainWindow;
 
-class menuScene : public QGraphicsScene
+class JogoScene : public QGraphicsScene
 {
 public:
-    explicit menuScene(QObject *parent = nullptr);
+    explicit JogoScene(QObject *parent = nullptr);
 
     void setAxis(bool value);
+    void getTab(QString fi);
+    void nextJog();
 
 
     // QGraphicsScene interface
@@ -34,12 +34,14 @@ protected:
     void keyReleaseEvent(QKeyEvent *event);
     void open();
 private:
-
+    vector<Jogador *> jog;
     QTimer          * _timer;
     Botao           * pbutton;
+    Util_b           * dados;
     Tabuleiro       * tabuleiro;
     QCursor         * cursor;
     QPoint          lim;
+    int             atual;
     QGraphicsLineItem * x_axis;
     QGraphicsLineItem * y_axis;
     CardDisplay * rect;
@@ -47,4 +49,4 @@ private:
 
 };
 
-#endif // MENU_SCENE_H
+#endif // JOGOSCENE_H
