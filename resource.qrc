@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>tab.csv</file>
         <file>jogadores.csv</file>
+        <file>SorteReves.csv</file>
     </qresource>
 </RCC>

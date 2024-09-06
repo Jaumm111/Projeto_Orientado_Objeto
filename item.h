@@ -38,8 +38,10 @@ public:
 class I_Carta: public Item{
 private:
 public:
+    I_Carta(CardDisplay * a) : Item(a){}
     void clicar();
     Type_i tipo(){return Type_i::CARTA;}
+    int get_valor(){return 0;}
     void change(int i){}
 };
 class I_Din: public Item{

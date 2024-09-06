@@ -4,7 +4,10 @@ Casa::Casa(QString nome_)
 {
     nome = nome_;
 }
-
+void Casa::cair(Jogador * jog){
+    qDebug() << "prox C";
+    jog->getScene()->nextJog();
+}
 Propriedade::Propriedade(QString nome_,
                          QString c,
                          int preco_,
@@ -52,10 +55,13 @@ void Propriedade::esperado(Jogador *j){
     delete p;
     delete c;
     j->getScene()->setEspera(espera);
+    qDebug() << "vamo prox";
+    j->getScene()->nextJog();
 }
 
 void Prender::cair(Jogador * jog){
     jog->mover_cadeia();
+    qDebug() << "prox P";
     jog->getScene()->nextJog();
 }
 void Propriedade::cair(Jogador * jog)
@@ -85,10 +91,12 @@ void Propriedade::cair(Jogador * jog)
         }
         else if(dono != jog){
             jog->pagar(aluguel[num_estacoes],dono);
+            qDebug() << "prox Pago";
             jog->getScene()->nextJog();
             break;
         }
         else{
+            qDebug() << "prox proprio";
             jog->getScene()->nextJog();
             break;
         }
@@ -96,5 +104,8 @@ void Propriedade::cair(Jogador * jog)
 }
 void Sorte_Reves::cair(Jogador * jog)
 {
+    Carta * c = s_r->puxar_carta(jog);
+    jog->getScene()->addItem(c->getC()->getItem());
+    qDebug() << "prox Sorte";
     jog->getScene()->nextJog();
 }

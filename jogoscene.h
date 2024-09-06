@@ -7,6 +7,7 @@
 #include "item.h"
 #include "tabuleiro.h"
 #include "jogador.h"
+#include "baralho.h"
 
 using namespace std;
 
@@ -16,6 +17,7 @@ class Util_b;
 class Tabuleiro;
 class CardDisplay;
 class MainWindow;
+class Baralho;
 
 class JogoScene : public QGraphicsScene
 {
@@ -24,9 +26,11 @@ public:
 
     void setAxis(bool value);
     void getTab(QString fi);
+    void getBaralho(QString fi);
     void nextJog();
     bool getEspera();
     void setEspera(bool a);
+    void setDados(int d_1, int d_2);
 
 
     // QGraphicsScene interface
@@ -40,9 +44,12 @@ private:
     vector<Jogador *> jog;
     QTimer          * _timer;
     Botao           * pbutton;
-    Util_b           * dados;
+    Util_b          * dados;
     Tabuleiro       * tabuleiro;
+    Baralho         * baralho;
     QCursor         * cursor;
+    CardDisplay     * d1;
+    CardDisplay     * d2;
     QPoint          lim;
     int             atual;
     QGraphicsLineItem * x_axis;

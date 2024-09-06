@@ -13,8 +13,6 @@ Jogador::Jogador(QString nome_,
     cor = cor_;
     x_ = 50;
     y_ = -200;
-    qDebug() << "iventario";
-    qDebug() << Config::Game::getInstance()->get_d_init().size();
     int posx = -100;
     int posy = -100;
     for(int i =0 ; i < Config::Game::getInstance()->get_d_init().size();i++){
@@ -25,7 +23,6 @@ Jogador::Jogador(QString nome_,
         posx += iventario[i]->getItem()->rect().width();
         scene->addItem(iventario[i]->getItem());
     }
-    qDebug() << iventario.size();
     for (unsigned i=0; i<iventario.size(); i++){
         qDebug() << i;
         if (iventario[i]->tipo() == Item::Type_i::DINHEIRO)
@@ -35,7 +32,6 @@ Jogador::Jogador(QString nome_,
 
 void Jogador::add_item(Item * i){
     iventario.push_back(i);
-    qDebug() << iventario.back()->get_valor();
     iventario.back()->getItem()->setPos(x_,y_);
     scene->addItem(iventario.back()->getItem());
     if(x_+120>Config::Viewport::WIDTH*0.5){
@@ -66,7 +62,7 @@ void Jogador::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
     painter->drawText(this->rect(),Qt::AlignCenter,nome);
 
 }
-void Jogador::jogar_dados(JogoScene * scene){
+void Jogador::jogar_dados(){
     int d1;
     int d2;
     qDebug()<<"dados";
@@ -78,6 +74,7 @@ void Jogador::jogar_dados(JogoScene * scene){
         d1 = rand() % Config::Game::getInstance()->get_dice() +1;
         d2 = rand() % Config::Game::getInstance()->get_dice() +1;
     }
+    scene->setDados(d1,d2);
     if (repetir < Config::Game::getInstance()->get_max_rep()){
         if (d1 == d2){
             qDebug()<<"IGUAIS";
@@ -88,13 +85,15 @@ void Jogador::jogar_dados(JogoScene * scene){
             }
             else{
                 if (repetir == Config::Game::getInstance()->get_max_rep()){
+                    qDebug() << "Cadeia";
                     mover_cadeia();
                     repetir = 0;
                 }
-                else
+                else{
                     qDebug() << "mover";
+                    denovo = true;
                     mover_peao(d1+d2);
-                denovo = true;
+                }
             }
 
         }
@@ -103,15 +102,19 @@ void Jogador::jogar_dados(JogoScene * scene){
             if (!preso){
                 qDebug() << "mover";
                 mover_peao(d1+d2);
+                repetir = 0;
             }
             else{
+                qDebug() << "prox";
                 scene->nextJog();
+                repetir++;
+                if(repetir == Config::Game::getInstance()->get_max_rep()){
+                    preso = false;
+                    repetir =0;
+                }
             }
         }
-        if (repetir == Config::Game::getInstance()->get_max_rep())
-            mover_cadeia();
     }
-    qDebug() << "prox";
 }
 void Jogador::mover_cadeia(){
     preso = true;

@@ -42,7 +42,7 @@ void Util_b::setScene(JogoScene * j){
 void Util_b::mousePressEvent(QGraphicsSceneMouseEvent *event){
     qDebug() << "botao";
     if(!scene->getEspera())
-        jogador->jogar_dados(scene);
+        jogador->jogar_dados();
 }
 void Util_b::setAtual(Jogador *j) {
     qDebug() << j->getNome();
@@ -60,7 +60,7 @@ void Comprar::setProp(Propriedade *p){
 void Comprar::mousePressEvent(QGraphicsSceneMouseEvent *event){
     if(nome == "Comprar")
         prop->comprar(jogador);
-    scene->nextJog();
+    qDebug() << "pres_prox";
     prop->esperado(jogador);
 }
 void Comprar::setAtual(Jogador *j) {

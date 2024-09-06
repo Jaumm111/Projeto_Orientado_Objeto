@@ -28,7 +28,7 @@ public:
         SORTE_REVES,
         VPP
     } CasaType;
-    virtual void cair(Jogador * jog){ };
+    virtual void cair(Jogador * jog);
     virtual int getPreco(){return 0;}
     virtual Casa::CasaType tipo(){return CasaType::CANTO;};
     virtual QString get_cor(){return "gray";};
@@ -77,7 +77,7 @@ class Sorte_Reves: public Casa{
 private:
     Baralho *s_r;
 public:
-    Sorte_Reves(QString nome_="Sorte_Reves"): Casa(nome_) { }
+    Sorte_Reves(Baralho *s,QString nome_="Sorte_Reves"): Casa(nome_) { s_r =s;}
     CasaType tipo() { return CasaType::SORTE_REVES; }
     void cair(Jogador * jog);
     QString get_cor(){return "gray";};

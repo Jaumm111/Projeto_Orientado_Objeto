@@ -7,7 +7,6 @@ CardDisplay::CardDisplay(qreal x, qreal y,
                          qreal width, qreal height,
                          QGraphicsItem *parent) : QGraphicsRectItem(x,y,width,height, parent)
 {
-
 }
 CardDisplay::CardDisplay(CardDisplay *d) : QGraphicsRectItem(d->rect())
 {
@@ -38,7 +37,6 @@ void CardDisplay::paint(QPainter *painter, const QStyleOptionGraphicsItem *optio
                                 this->rect().height()*0.05,
                                 this->rect().width()*0.9,
                                 this->rect().height()*0.9));
-    qDebug() << texto;
 
 
 }

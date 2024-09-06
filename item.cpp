@@ -25,3 +25,8 @@ I_Prop::I_Prop(Propriedade *p, CardDisplay *i): Item(i)
 {
     prop = p;
 }
+
+void I_Carta::clicar()
+{
+
+}

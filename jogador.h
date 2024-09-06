@@ -44,7 +44,7 @@ public:
     QString getNome(){return nome;}
     JogoScene * getScene(){return scene;}
     bool getDenovo(){return denovo;}
-    void jogar_dados(JogoScene * scene);
+    void jogar_dados();
     void mover_peao(int num);
     void receber_dinheiro(int num);
     void pagar(int num,Jogador * j = nullptr);

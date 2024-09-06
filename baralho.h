@@ -1,23 +1,27 @@
 #ifndef BARALHO_H
 #define BARALHO_H
 #include "casa.h"
+#include "item.h"
+class I_Carta;
 using namespace std;
+class Jogador;
 
 class Carta{
 protected:
-    string nome;
+    QString nome;
+    I_Carta * carta;
 public:
-    virtual void acao() = 0;
+    virtual void acao(Jogador *j) = 0;
+    virtual I_Carta * getC() = 0;
 };
-
 class Baralho{
 private:
     vector<Carta *> cartas;
     int pos;
 public:
-    Baralho();
+    Baralho(vector<Carta *> c);
     void embaralhar();
-    void puxar_carta(int jogador);
+    Carta * puxar_carta(Jogador *j);
 };
 
 class Base: public Carta{
@@ -30,11 +34,8 @@ private:
     c_type tipo;
     int quant;
 public:
-    Base(c_type tipo_, int quant_, string nome_){
-        tipo = tipo_;
-        quant = quant_;
-        nome = nome_;
-    }
-    void acao(int jogador);
+    Base(c_type tipo_, int quant_, QString nome_);
+    I_Carta * getC(){return carta;}
+    void acao(Jogador *j);
 };
 #endif // BARALHO_H

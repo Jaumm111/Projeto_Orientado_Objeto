@@ -9,7 +9,7 @@ class MainWindow;
 class CardDisplay : public QGraphicsRectItem
 {
 public:
-    CardDisplay(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *parent = nullptr);
+    CardDisplay(qreal x, qreal y, qreal width, qreal height,QGraphicsItem *parent = nullptr);
     CardDisplay(CardDisplay *d);
     //void addPixMap(QPixmap map_){map=map_;}
     void addText(QString s){texto = s;}
